@@ -1,0 +1,12 @@
+--- lib/active_record/dirty.rb
++++ lib/active_record/dirty.rb
+@@ -143,7 +143,8 @@ module ActiveRecord
+         if partial_updates?
+           # Serialized attributes should always be written in case they've been
+           # changed in place.
+-          update_without_dirty(changed | (attributes.keys & self.class.serialized_attributes.keys))
++          # *** ACTS_AS_SCHEMALESS PATCH *** - schemaless fields are the exception to the "always dirty" rule (as it is impossible to change them in-place)
++          update_without_dirty(changed | (attributes.keys & (self.class.serialized_attributes.symbolize_keys.keys - Array(self.class.try(:schemaless_fields)))))
+         else
+           update_without_dirty
+         end
