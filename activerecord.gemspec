@@ -1,5 +1,4 @@
 require "rubygems"
-require "rake"
 
 dist_dirs = [ "lib", "test", "examples" ]
 
